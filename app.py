@@ -15,13 +15,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
-load_dotenv()
-
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
-if not GEMINI_API_KEY:
-    st.error("GEMINI_API_KEY is missing in Render Environment Variables")
-    st.stop()
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 
 MODEL = "gemini-2.5-flash"
 EMB_MODEL = "gemini-embedding-001"
