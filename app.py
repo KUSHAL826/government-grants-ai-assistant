@@ -22,7 +22,7 @@ os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
 if not os.environ["GOOGLE_API_KEY"]:
     st.error("API KEY IS NOT ENTERED")
     st.stop()
-
+    
 MODEL = "gemini-2.5-flash"
 EMB_MODEL = "gemini-embedding-001"
 UPDATE_INTERVAL = 3600
