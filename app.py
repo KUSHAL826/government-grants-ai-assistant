@@ -17,12 +17,12 @@ from langchain_core.output_parsers import StrOutputParser
 
 load_dotenv()
 
-os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-if not os.environ["GOOGLE_API_KEY"]:
-    st.error("API KEY IS NOT ENTERED")
+if not GEMINI_API_KEY:
+    st.error("GEMINI_API_KEY is missing in Render Environment Variables")
     st.stop()
-    
+
 MODEL = "gemini-2.5-flash"
 EMB_MODEL = "gemini-embedding-001"
 UPDATE_INTERVAL = 3600
@@ -67,8 +67,9 @@ def create_vectorstore(docs):
     chunks = splitter.split_documents(docs)
 
     embeddings = GoogleGenerativeAIEmbeddings(
-        model=EMB_MODEL
-    )
+    model=EMB_MODEL,
+    google_api_key=GEMINI_API_KEY
+)
 
     vectorstore = FAISS.from_documents(
         chunks,
@@ -159,7 +160,8 @@ retriever = vectorstore.as_retriever(
 
 llm = ChatGoogleGenerativeAI(
     model=MODEL,
-    temperature=0
+    temperature=0,
+    google_api_key=GEMINI_API_KEY
 )
 
 prompt = ChatPromptTemplate.from_messages([
